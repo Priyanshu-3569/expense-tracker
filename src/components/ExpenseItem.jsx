@@ -2,9 +2,11 @@ import React from "react";
 
 function ExpenseItem({ expense, onDelete }) {
   return (
-    <div style={{ display: "flex", justifyContent: "space-between", margin: "10px 0" }}>
-      <span>{expense.title}</span>
-      <span>₹ {expense.amount.toFixed(2)}</span>
+    <div className="expense-item">
+      <h3>{expense.title}</h3>
+      <p>₹{expense.amount.toFixed(2)}</p>
+      <p>{expense.category}</p>
+      <p>{new Date(expense.date).toDateString()}</p>
       <button onClick={() => onDelete(expense.id)}>Delete</button>
     </div>
   );

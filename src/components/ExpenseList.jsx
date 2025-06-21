@@ -3,12 +3,12 @@ import ExpenseItem from "./ExpenseItem";
 
 function ExpenseList({ expenses, onDelete }) {
   return (
-    <div>
+    <div className="expense-list">
       {expenses.length === 0 ? (
-        <p>No expenses yet.</p>
+        <p>No expenses found.</p>
       ) : (
-        expenses.map((expense) => (
-          <ExpenseItem key={expense.id} expense={expense} onDelete={onDelete} />
+        expenses.map((exp) => (
+          <ExpenseItem key={exp.id} expense={exp} onDelete={onDelete} />
         ))
       )}
     </div>
