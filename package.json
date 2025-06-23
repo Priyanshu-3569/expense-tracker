@@ -1,9 +1,9 @@
 {
-  "name": "expensse-tracker",
+  "name": "expense-tracker",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://el-citra.github.io/expense-tracker",
+  "homepage": "https://Priyanshu-3569.github.io/expense-tracker",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

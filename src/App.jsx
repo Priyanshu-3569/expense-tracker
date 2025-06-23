@@ -3,22 +3,30 @@ import ExpenseForm from "./components/ExpenseForm";
 import ExpenseList from "./components/ExpenseList";
 import Filters from "./components/Filters";
 import ExpenseChart from "./components/ExpenseChart";
+import Login from "./components/Login";
 import "./index.css";
 
 function App() {
+  const [username, setUsername] = useState(localStorage.getItem("username"));
   const [expenses, setExpenses] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [dateFilter, setDateFilter] = useState(null);
 
+  // Load user-specific expenses on login
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("expenses"));
-    if (saved) setExpenses(saved);
-  }, []);
+    if (username) {
+      const saved = JSON.parse(localStorage.getItem(`expenses_${username}`));
+      if (saved) setExpenses(saved);
+    }
+  }, [username]);
 
+  // Save user-specific expenses to localStorage
   useEffect(() => {
-    localStorage.setItem("expenses", JSON.stringify(expenses));
-  }, [expenses]);
+    if (username) {
+      localStorage.setItem(`expenses_${username}`, JSON.stringify(expenses));
+    }
+  }, [expenses, username]);
 
   const addExpense = (expense) => setExpenses([expense, ...expenses]);
 
@@ -42,10 +50,27 @@ function App() {
 
   const total = filteredExpenses.reduce((acc, curr) => acc + curr.amount, 0);
 
+  if (!username) {
+    return <Login onLogin={setUsername} />;
+  }
+
   return (
     <div className="App">
-      <h1>Expense Tracker</h1>
-      <h2>Total Spent: ₹{total.toFixed(2)}</h2>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <h1>Expense Tracker</h1>
+        <button className="logout-btn"
+          onClick={() => {
+            localStorage.removeItem("username");
+            setUsername(null);
+          }}
+        >
+          Logout
+        </button>
+      </div>
+
+      <h2>Welcome, {username}!</h2>
+      <h3>Total Spent: ₹{total.toFixed(2)}</h3>
+
       <ExpenseForm onAddExpense={addExpense} />
       <Filters
         searchTerm={searchTerm}
@@ -62,4 +87,5 @@ function App() {
 }
 
 export default App;
+
 
